@@ -1,0 +1,13 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=1932
+
+It is something so trivial, I can't believe it hasn't been done before.
+After looking for an hour I couldn't find a plugin to do this without relying on external programs, so here is my offering, 100% pure vimscript.
+
+Highlight some lines containing numbers, and use <Leader>su (usually that's \su) and the sum appears in the message line.  
+
+It works by grepping each line of your selection for the first number it sees, and adds that to the running total.
+
+Visual Block support added in version 0.2.
+
+Feedback to g?? ArjBsnyFbCe@tzNnvZy.pbz - NOSPAM
+
