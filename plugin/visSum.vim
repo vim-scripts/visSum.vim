@@ -3,7 +3,7 @@
 " File:         visSum.vim (global plugin)
 " Last Changed: 2007-06-20
 " Maintainer:   Erik Falor <ewfalor@gmail.com>
-" Version:      0.1a
+" Version:      0.1c
 " License:      Vim License
 " =============================================================================
 
@@ -13,7 +13,7 @@ if exists("g:loaded_sum")
     finish
 endif
 "
-let g:loaded_sum = "0.1a"
+let g:loaded_sum = "0.1c"
 
 "Mappings
 "{{{
@@ -42,7 +42,7 @@ function! <SID>SumNumbers() range
 		let y2      = line("'>")
 "		Decho("y1 = " . y1 . " y2 = " . y2)
 		while y1 <= y2
-			let l:cur = matchstr( getline(y1), '\d\+' )
+			let l:cur = matchstr( getline(y1), '-\{-}\d\+' )
 "			Decho("l:cur is " . l:cur)
 			let l:sum += l:cur
 			let y1 += 1
@@ -66,14 +66,14 @@ endfunction "}}}
 "{{{
 " <column width=\"24\"> The winter of '49</column>
 " <column width=\"18\"> The Summer of '48</column>
-" <column width=\"44\">
-" <column width=\"14\">
+" <column width=\"44\"/>
+" <column width=\"14\"/>
 "
 "
 "1
 "2
-"3
-"4
+"-3
+"-4
 "5
 "6
 "7
