@@ -1,10 +1,15 @@
 " vim:filetype=vim foldmethod=marker textwidth=78
 " ==========================================================================
 " File:         visSum.vim (global plugin)
-" Last Changed: 2012-07-17
+" Last Changed: 2015-06-16
 " Maintainer:   Erik Falor <ewfalor@gmail.com>
-" Version:      1.0
+" Version:      1.1
 " License:      Vim License
+"
+"
+" This version (1.1) contains a fix for a bug reported by Markus Weimar.
+" Thank you, Markus!
+"
 "
 " A great big thanks to Christian Mauderer for providing a patch for
 " floating-point support!
@@ -26,9 +31,9 @@
 " ==========================================================================
 
 " Exit quickly if the script has already been loaded
-let s:this_version = '1.0'
+let s:this_version = '1.1'
 if exists('g:loaded_visSum') && g:loaded_visSum == s:this_version
-	finish
+	finish    "TODO: uncomment this!!!
 endif
 let g:loaded_visSum = s:this_version
 
@@ -74,14 +79,19 @@ function! <SID>SumNumbers_Float(...) range  "{{{
 			let y1 += 1
 		endwhile
 	elseif visualmode() == "\<c-v>"
-		let y1      = line("'<")
-		let y2      = line("'>")
-		let x1		= col("'<") - 1
-		let len		= col("'>") - x1
+		let [ x1, y1, x2, y2 ] = [col("'<"), line("'<"), col("'>"), line("'>")]
+		" swap the X coords when the box is drawn from the right-hand side
+		if x2 < x1
+			let x1 = x1 + x2
+			let x2 = x1 - x2
+			let x1 = x1 - x2
+		endif
+		let x1 = x1 - 1
+		let len	= x2 - x1
 		while y1 <= y2
 			let line = getline(y1)
 			let chunk = strpart(line, x1, len)
-			let l:cur = matchstr( strpart(getline(y1), x1, len ), '-\?\d\+\(\.\d\+\)\?' )
+			let l:cur = matchstr( strpart(getline(y1), x1, len), '-\?\d\+\(\.\d\+\)\?' )
 			if l:cur == ""
 				let l:cur = "0"
 			endif
@@ -122,10 +132,15 @@ function! <SID>SumNumbers_Int(...) range  "{{{
 			let y1 += 1
 		endwhile
 	elseif visualmode() == "\<c-v>"
-		let y1      = line("'<")
-		let y2      = line("'>")
-		let x1		= col("'<") - 1
-		let len		= col("'>") - x1
+		let [ x1, y1, x2, y2 ] = [col("'<"), line("'<"), col("'>"), line("'>")]
+		" swap the X coords when the box is drawn from the right-hand side
+		if x2 < x1
+			let x1 = x1 + x2
+			let x2 = x1 - x2
+			let x1 = x1 - x2
+		endif
+		let x1 = x1 - 1
+		let len	= x2 - x1
 		while y1 <= y2
 			let line = getline(y1)
 			let chunk = strpart(line, x1, len)
@@ -165,6 +180,7 @@ endfunction "}}}
 "10.
 "-11.
 "+12.
+"
 "
 "The pedant in me wants to make these numbers work as well;
 "but if I've learned anything, it's that the perfect is the
