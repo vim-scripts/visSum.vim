@@ -1,15 +1,16 @@
 " vim:filetype=vim foldmethod=marker textwidth=78
 " ==========================================================================
 " File:         visSum.vim (global plugin)
-" Last Changed: 2015-06-16
+" Last Changed: 2015-08-18
 " Maintainer:   Erik Falor <ewfalor@gmail.com>
-" Version:      1.1
+" Version:      1.2
 " License:      Vim License
 "
+" This version (1.2) contains a fix for a bug reported by Fabio Inguaggiato.
+" Thanks, Fabio!
 "
-" This version (1.1) contains a fix for a bug reported by Markus Weimar.
+" Version (1.1) contains a fix for a bug reported by Markus Weimar.
 " Thank you, Markus!
-"
 "
 " A great big thanks to Christian Mauderer for providing a patch for
 " floating-point support!
@@ -31,9 +32,9 @@
 " ==========================================================================
 
 " Exit quickly if the script has already been loaded
-let s:this_version = '1.1'
+let s:this_version = '1.2'
 if exists('g:loaded_visSum') && g:loaded_visSum == s:this_version
-	finish    "TODO: uncomment this!!!
+	finish
 endif
 let g:loaded_visSum = s:this_version
 
@@ -64,7 +65,7 @@ endif
 "}}}
 
 function! <SID>SumNumbers_Float(...) range  "{{{
-	let l:sum = 0.0
+	let l:sum = str2float("0.0")
 	let l:cur = ""
 
 	if visualmode() =~ '\cv'
